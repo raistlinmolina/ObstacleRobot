@@ -17,6 +17,7 @@ int servoPin = 2;
 int initialPos = 0; // Initial servo position (degrees)
 int degressStep = 15; // Degress to advance in each step
 int servoStorePos = 90; //Position to put the servo while moving
+int centerPos = 90;
 
 void setup() {
   myservo.attach(servoPin);  // attaches the servo on pin servoPin to the servo object
@@ -27,14 +28,24 @@ int getSonarRead(){
   return 100;
 }
 
-int determineBestOption(int  distances[]) {
+int determineBestDirection(int  distances[]) {
   //Here goes the algorithm to determine the best option;
-  //Maybe it could be imporved to return a list of ordered options from better to worse.
-  return 6;
+  //Maybe it could be improved to return a list of ordered options from better to worse.
+  //Result: -90 full left, 0 center, 90 full right.
+  int currentBest = 0;
+  int currentPos = 0;
+  for (int i=0; i<sizeof(distances); i++){
+    if (currentBest < distances[i]){
+      currentBest = distances[i];
+      currentPos = i;
+    }
+  }
+  currentPos = (currentPos * degressStep) - centerPos;
+  return currentPos;
 }
 
-int doBarrage() {
-  //Do barrage and return direction in degrees of clearer path.  
+int[] sweep() {
+  //Do barrage and return distances read.  
   myservo.write(initialPos);
   delay(500);
   int slots = 180/degressStep;
@@ -46,17 +57,12 @@ int doBarrage() {
     distances [pos/degressStep] = getSonarRead();
     delay(500);                       // waits 15ms for the servo to reach the position
   }
-  int bestDirection = 0;
-  for (int slot = 0; slot <= slots; slot++) {
-    bestDirection = determineBestOption(distances);
-  }
   myservo.write(90);
   delay(3000);
-  return bestDirection * degressStep;
-
+  return distances;
 }
 
 void loop() {
-  doBarrage();
+  sweep();
 
 }
