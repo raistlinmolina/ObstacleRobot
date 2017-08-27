@@ -203,5 +203,5 @@ void testFWDREVROT(){
 }
 
 void loop() {
-  goFWD(100);
+  rightEngineFWD(100);
 }

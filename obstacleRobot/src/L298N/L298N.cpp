@@ -9,20 +9,20 @@
 L298N::L298N(){
 }
 
-void L298N::setup(int leftEnginePWMPin,int rightEnginePWMPin,int leftEngineIn1Pin,int leftEngineIn2Pin,int rightEngineIn3Pin,int rightEngineIn4Pin){
-  this->leftEnginePWMPin = leftEnginePWMPin;
-  this->rightEnginePWMPin = rightEnginePWMPin;
-  this->leftEngineIn1Pin = leftEngineIn1Pin;
-  this->leftEngineIn2Pin = leftEngineIn2Pin;
-  this->rightEngineIn3Pin = rightEngineIn3Pin;
-  this->rightEngineIn4Pin = rightEngineIn4Pin;
+void L298N::setup(int lePWM,int rePWM,int lpin1,int lpin2,int rpin3,int rpin4){
+  this->leftEnginePWMPin = lePWM;
+  this->rightEnginePWMPin = rePWM;
+  this->leftEngineIn1Pin = lpin1;
+  this->leftEngineIn2Pin = lpin2;
+  this->rightEngineIn3Pin = rpin3;
+  this->rightEngineIn4Pin = rpin4;
   
-  pinMode(leftEnginePWMPin,OUTPUT);
-  pinMode(rightEnginePWMPin,OUTPUT);
-  pinMode(leftEngineIn1Pin,OUTPUT);
-  pinMode(leftEngineIn2Pin,OUTPUT);
-  pinMode(rightEngineIn3Pin,OUTPUT);
-  pinMode(rightEngineIn4Pin,OUTPUT);
+  pinMode(lePWM,OUTPUT);
+  pinMode(rePWM,OUTPUT);
+  pinMode(lpin1,OUTPUT);
+  pinMode(lpin2,OUTPUT);
+  pinMode(rpin3,OUTPUT);
+  pinMode(rpin4,OUTPUT);
 }
 
 void L298N::leftEngineStop(){
@@ -136,6 +136,12 @@ void L298N::rotateRight(int speedl, int speedr){
 void L298N::goFWD(int speedE){
   rightEngineFWD(speedE);
   leftEngineFWD(speedE);
+  Serial.println(leftEnginePWMPin);
+	Serial.println(rightEnginePWMPin);
+	Serial.println( leftEngineIn1Pin);
+	Serial.println( leftEngineIn2Pin);
+	Serial.println( rightEngineIn3Pin);
+	Serial.println( rightEngineIn4Pin);
 }
 
 void L298N::goREV(int speedE){

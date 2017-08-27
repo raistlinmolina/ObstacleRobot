@@ -53,12 +53,6 @@ long Sonar::getSonarRead (){
 		lowerDistance = distance[i];
 	}
   }
-  
-  /*Serial output
-  Serial.println("Distance ");
-  Serial.println(total);
-  Serial.println(" cm.");
-  */
   return lowerDistance;
 }
 
@@ -72,7 +66,7 @@ int Sonar::determineBestDirection(long  distances[]) {
   //Result: -90 full left, 0 center, 90 full right.
   int currentBest = 0;
   int currentPos = 0;
-  int slots=coverage/degreesStep;
+  int slots=(coverage/degreesStep)+1;
   for (int i=0; i<slots; i++){
     if (currentBest < distances[i]){
       currentBest = distances[i];
@@ -86,19 +80,15 @@ int Sonar::determineBestDirection(long  distances[]) {
 void Sonar::sweep(long *distances) {
   //Do barrage and return distances read.  
   myservo.write(initialPos);
-  delay(500);
-  int slots = coverage/degreesStep;
-
-  delay(15);
+  delay(50);
+  int slots = (coverage/degreesStep)+1;
   for (int pos = 0; pos <= coverage; pos += degreesStep) { 
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(100);                       // waits for the servo to reach the position
     distances [pos/degreesStep] = getSonarRead();
-    delay(500);                       // waits for the servo to reach the position
+    
   }
-  /*for (int i=0; i<coverage/degreesStep; i++){
-	Serial.println(distances[i]);
-  }*/
   myservo.write(servoStorePos);
-  delay(1000);
+  delay(300);
   return distances;
 }

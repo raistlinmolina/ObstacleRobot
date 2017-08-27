@@ -4,19 +4,24 @@
 Sonar sonar;
 L298N l298n;
 
-long minimumSpace = 15;
+
+//The servo library disables PWM (analogWrite) on pins 9 and 10, so do not use them for motor PWM
+long minimumSpace = 25;
 
 void setup(){
-  //Serial.begin(9600);
+  Serial.begin(9600);
   sonar.setup(2,12,13);
-  l298n.setup(11,10,9,8,7,6);
+  //The servo library disables PWM (analogWrite) on pins 9 and 10, so do not use them for motor PWM
+  l298n.setup(11,5,9,8,7,6);
 }
 
 void loop(){                          
   int slots=sonar.coverage/sonar.degreesStep;
   long distances[slots];
+  boolean stopped = false;
   long freeSpace = sonar.getSonarRead();
   if (freeSpace <= minimumSpace){
+    stopped = true;
     l298n.stop();
     sonar.sweep(&distances[0]);
     int bestDir = sonar.determineBestDirection(distances);
@@ -29,14 +34,14 @@ void loop(){
       int delayT = bestDir * -1 * multiplier;
       delay(delayT);
     }else if(bestDir >0){
-       l298n.rotateLeft(100);
-      int delayT = bestDir * -1 * multiplier;
+       l298n.rotateRight(100);
+      int delayT = bestDir * multiplier;
       delay(delayT);   
     }                                                                                                  
   }
   freeSpace = sonar.getSonarRead();
-  if (freeSpace > minimumSpace){
-    l298n.goFWD(100);
+  if (stopped && freeSpace > minimumSpace){
+    l298n.rightEngineFWD(200);
   }
  
   

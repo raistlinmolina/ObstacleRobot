@@ -20,7 +20,7 @@ class Sonar
     int determineBestDirection(long  distances[]);
     void sweep(long *distances);
     boolean thresholdPassed();
-    int degreesStep = 15; // Degress to advance in each step
+    int degreesStep = 30; // Degress to advance in each step
     
     int coverage=180;
     

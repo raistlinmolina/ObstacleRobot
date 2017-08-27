@@ -6,7 +6,7 @@
  */
 
 #ifndef L298N_h
-#define L298N_h_h
+#define L298N_h
 
 #include "Arduino.h"
 //How the engines work
@@ -52,12 +52,12 @@ public:
 
 
 private:
-	int leftEnginePWMPin=11;
-	int rightEnginePWMPin=10;
-	int leftEngineIn1Pin=9;
-	int leftEngineIn2Pin=8;
-	int rightEngineIn3Pin=7;
-	int rightEngineIn4Pin=6;
+	int leftEnginePWMPin;
+	int rightEnginePWMPin;
+	int leftEngineIn1Pin;
+	int leftEngineIn2Pin;
+	int rightEngineIn3Pin;
+	int rightEngineIn4Pin;
 };
 
 #endif
