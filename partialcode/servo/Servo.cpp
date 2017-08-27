@@ -1,39 +1,23 @@
-/* Sweep
- by BARRAGAN <http://barraganstudio.com>
- This example code is in the public domain.
+/*
+ * Sonar.h - Library to control the usound sensor at the fron of the car.
+ * José Manuel Molina Pacual, August 2017
+ * Collado Villalba, Madrid, Spain
+ * GNU 3.0 License
+ */
 
- modified 8 Nov 2013
- by Scott Fitzgerald
- http://www.arduino.cc/en/Tutorial/Sweep
-*/
+#include "Arduino.h"
+#include "Sonar.h"
 
-#include <Servo.h>
-
-Servo myservo;  // create servo object to control a servo
-// twelve servo objects can be created on most boards
-
-int servoPos = 0;    // variable to store the servo position
-int servoPin = 2;
-int initialPos = 0; // Initial servo position (degrees)
-int degressStep = 15; // Degress to advance in each step
-int servoStorePos = 90; //Position to put the servo while moving
-int centerPos = 90;
-
-void setup() {
-  sonarSetup(servoPin);
-}
-
-
-void sonarSetup(int pin){
+Sonar::Sonar(int pin){
   myservo.attach(servoPin);  // attaches the servo on pin servoPin to the servo object
 }
 
-int getSonarRead(){
+int Sonar::getSonarRead(){
   //Here goes the code to get the uSound read
   return 100;
 }
 
-int determineBestDirection(int  distances[]) {
+int Sonar::determineBestDirection(int  distances[]) {
   //Here goes the algorithm to determine the best option;
   //Maybe it could be improved to return a list of ordered options from better to worse.
   //Result: -90 full left, 0 center, 90 full right.
@@ -49,7 +33,7 @@ int determineBestDirection(int  distances[]) {
   return currentPos;
 }
 
-int* sweep() {
+int* Sonar::sweep() {
   //Do barrage and return distances read.  
   myservo.write(initialPos);
   delay(500);
@@ -65,9 +49,4 @@ int* sweep() {
   myservo.write(90);
   delay(3000);
   return distances;
-}
-
-void loop() {
-  sweep();
-
 }
