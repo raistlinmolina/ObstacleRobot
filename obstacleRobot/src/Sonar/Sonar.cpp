@@ -88,7 +88,7 @@ void Sonar::sweep(long *distances) {
   myservo.write(initialPos);
   delay(500);
   int slots = coverage/degreesStep;
-  Serial.println(slots);
+
   delay(15);
   for (int pos = 0; pos <= coverage; pos += degreesStep) { 
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
